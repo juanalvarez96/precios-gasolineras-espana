@@ -11,6 +11,9 @@ Repositorio para obtener los precios actualizados de **todas las gasolineras** d
 - Guarda los resultados en un archivo CSV con fecha y hora de ejecución.
 - Diseñado para ejecutarse **todos los días**.
 
+## Plan de desarrollo
+Ver el documento [PLAN.md](PLAN.md) para la hoja de ruta de la interfaz gráfica (mapa interactivo con Streamlit).
+
 ## Fuente de datos
 
 - Endpoint: `https://energia.serviciosmin.gob.es/ServiciosRestCarburantes/PreciosCarburantes/EstacionesTerrestres/`
