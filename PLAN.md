@@ -64,8 +64,8 @@ README.md
 - Implementado con Folium o Pydeck.
 
 ## Próximos pasos
-1. Modificar `gasolineras.py` para que también escriba `data/latest.csv`.
-2. Crear `app.py` con el mapa y el filtro de combustible.
-3. Actualizar `requirements.txt`.
-4. Probar localmente.
-5. (Opcional) Desplegar en Streamlit Cloud o similar.
+1. Hecho. `gasolineras.py` escribe el CSV con timestamp y `data/latest.csv`.
+2. Hecho. `app.py` muestra el mapa (Folium, MarkerCluster) y el filtro de combustible.
+3. Hecho. `requirements.txt` incluye streamlit, folium y streamlit-folium.
+4. Hecho en local con `streamlit run app.py`.
+5. Pendiente y opcional: desplegar en Streamlit Cloud. Hace falta cuenta y decidir si `data/latest.csv` se publica; ahora mismo `data/` y `*.csv` están en `.gitignore`.
