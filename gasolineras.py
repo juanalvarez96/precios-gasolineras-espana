@@ -59,7 +59,7 @@ def fetch_stations() -> tuple[List[Dict], str]:
     response = requests.get(API_URL, headers=headers, timeout=180)
     response.raise_for_status()
     data = response.json()
-    
+
     fecha = data.get("Fecha", "Desconocida")
     stations = data.get("ListaEESSPrecio", [])
     print(f"Fecha de los datos: {fecha}")
@@ -79,8 +79,12 @@ def process_stations(stations: List[Dict]) -> List[Dict]:
             "municipio": station.get("Municipio", ""),
             "provincia": station.get("Provincia", ""),
             "cp": station.get("C.P.", ""),
-            "latitud": station.get("Latitud", "").replace(",", ".") if station.get("Latitud") else "",
-            "longitud": station.get("Longitud (WGS84)", "").replace(",", ".") if station.get("Longitud (WGS84)") else "",
+            "latitud": station.get("Latitud", "").replace(",", ".")
+            if station.get("Latitud")
+            else "",
+            "longitud": station.get("Longitud (WGS84)", "").replace(",", ".")
+            if station.get("Longitud (WGS84)")
+            else "",
             "horario": station.get("Horario", ""),
             "tipo_venta": station.get("Tipo Venta", ""),
             "margen": station.get("Margen", ""),
@@ -96,17 +100,17 @@ def process_stations(stations: List[Dict]) -> List[Dict]:
 def save_to_csv(stations: List[Dict], fecha_api: str, output_dir: str = "data") -> str:
     """Guarda los datos en un CSV con timestamp."""
     os.makedirs(output_dir, exist_ok=True)
-    
+
     now = datetime.now()
     filename = f"precios_gasolineras_{now.strftime('%Y%m%d_%H%M%S')}.csv"
     filepath = os.path.join(output_dir, filename)
-    
+
     if not stations:
         print("No hay estaciones para guardar.")
         return filepath
-    
+
     fieldnames = list(stations[0].keys()) + ["fecha_api", "fecha_descarga"]
-    
+
     with open(filepath, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -114,7 +118,7 @@ def save_to_csv(stations: List[Dict], fecha_api: str, output_dir: str = "data") 
             station["fecha_api"] = fecha_api
             station["fecha_descarga"] = now.isoformat()
             writer.writerow(station)
-    
+
     print(f"Datos guardados en: {filepath}")
     print(f"Estaciones con precios de 95 o diésel: {len(stations)}")
     return filepath
