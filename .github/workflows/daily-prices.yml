@@ -1,0 +1,34 @@
+name: Daily Fuel Prices
+
+on:
+  schedule:
+    # Ejecutar todos los días a las 08:00 UTC
+    - cron: '0 8 * * *'
+  workflow_dispatch:  # Permitir ejecución manual
+
+jobs:
+  fetch-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Fetch gas station prices
+        run: python gasolineras.py
+
+      - name: Upload data as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: precios-gasolineras-${{ github.run_id }}
+          path: data/*.csv
+          retention-days: 30
